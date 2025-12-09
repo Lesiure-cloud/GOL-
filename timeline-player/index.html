@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间轴日程计划系统</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部工具栏 -->
+        <header class="toolbar">
+            <div class="toolbar-left">
+                <h1>📅 时间轴计划</h1>
+                <button id="addTaskBtn" class="btn btn-primary">+ 新建任务</button>
+            </div>
+            <div class="toolbar-center">
+                <div class="zoom-controls">
+                    <button id="zoomOut" class="btn btn-icon">−</button>
+                    <span id="zoomLevel">100%</span>
+                    <button id="zoomIn" class="btn btn-icon">+</button>
+                </div>
+                <div class="view-controls">
+                    <button class="btn btn-toggle active" data-view="day">日</button>
+                    <button class="btn btn-toggle" data-view="week">周</button>
+                </div>
+            </div>
+            <div class="toolbar-right">
+                <button id="todayBtn" class="btn btn-secondary">今天</button>
+                <button id="exportBtn" class="btn btn-secondary">📤 导出</button>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 左侧任务列表 -->
+            <aside class="task-sidebar">
+                <div class="sidebar-header">
+                    <h3>任务列表</h3>
+                    <input type="text" id="searchTask" placeholder="🔍 搜索任务...">
+                </div>
+                <div id="taskList" class="task-list"></div>
+            </aside>
+
+            <!-- 右侧时间轴 -->
+            <main class="timeline-container">
+                <div class="timeline-header" id="timelineHeader"></div>
+                <div class="timeline-body" id="timelineBody">
+                    <canvas id="timelineCanvas"></canvas>
+                    <div id="taskBars" class="task-bars"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 任务编辑弹窗 -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">新建任务</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="taskForm">
+                    <div class="form-group">
+                        <label>任务名称 *</label>
+                        <input type="text" id="taskName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>开始时间 *</label>
+                        <input type="datetime-local" id="taskStart" required>
+                    </div>
+                    <div class="form-group">
+                        <label>结束时间 *</label>
+                        <input type="datetime-local" id="taskEnd" required>
+                    </div>
+                    <div class="form-group">
+                        <label>描述</label>
+                        <textarea id="taskDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>优先级</label>
+                        <select id="taskPriority">
+                            <option value="low">低</option>
+                            <option value="medium" selected>中</option>
+                            <option value="high">高</option>
+                            <option value="urgent">紧急</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>颜色</label>
+                        <input type="color" id="taskColor" value="#3498db">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="hasParent">
+                            这是子任务
+                        </label>
+                    </div>
+                    <div class="form-group" id="parentSelectGroup" style="display: none;">
+                        <label>父任务</label>
+                        <select id="parentTask"></select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">取消</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- JavaScript 模块加载 - 顺序很重要！ -->
+<script src="js/core.js"></script>
+<script src="js/taskManager.js"></script>
+<script src="js/timeline.js"></script>
+<script src="js/calendar.js"></script>     <!-- 新增 -->
+<script src="js/ui.js"></script>
+
+<!-- 调试信息 -->
+<script>
+    console.log('%c✅ 时间轴计划系统已加载', 'color: green; font-size: 16px; font-weight: bold;');
+    console.log('核心模块:', typeof AppConfig !== 'undefined' ? '✅' : '❌');
+    console.log('任务管理:', typeof taskManager !== 'undefined' ? '✅' : '❌');
+    console.log('时间轴:', typeof timeline !== 'undefined' ? '✅' : '❌');
+    console.log('日历模块:', typeof calendarExporter !== 'undefined' ? '✅' : '❌');  <!-- 新增 -->
+    console.log('UI控制:', typeof uiController !== 'undefined' ? '✅' : '❌');
+</script>
+
+</body>
+</html>
